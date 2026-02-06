@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دليل الموردين | Supplier Directory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="../js/supabase.js"></script>
+  <script defer src="../js/suppliers.js"></script>
+  <script defer src="../js/ui.js"></script>
+  <script defer src="./landing.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-slate-50">
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">دليل الموردين</h1>
+          <p class="text-gray-600 mt-1">Supplier Directory</p>
+        </div>
+        <a href="login.html" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+          </svg>
+          دخول إداري / Admin
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Search Section -->
+    <div class="mb-8">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">البحث عن موردين</h2>
+        <div class="search-input relative">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="ابحث بالاسم أو رقم الهاتف... / Search by name or phone"
+            class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          >
+        </div>
+        <p class="text-sm text-gray-500 mt-2">اضغط يمين الزر على المجالات أدناه لنسخ البريد الإلكتروني</p>
+      </div>
+    </div>
+
+    <!-- Suppliers Grid -->
+    <div id="suppliersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Loading state -->
+      <div class="col-span-full flex justify-center py-12">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state hidden">
+      <svg class="mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"></path>
+      </svg>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">لم يتم العثور على موردين</h3>
+      <p class="text-gray-600">حاول البحث بكلمات مفتاحية أخرى</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-8 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h3 class="text-white font-semibold mb-4">عن النظام</h3>
+          <p class="text-sm">دليل موردين شامل لعمليات الشراء والتوريد</p>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">الميزات</h3>
+          <ul class="text-sm space-y-2">
+            <li><a href="#" class="hover:text-white transition">بحث سهل</a></li>
+            <li><a href="#" class="hover:text-white transition">معلومات دقيقة</a></li>
+            <li><a href="#" class="hover:text-white transition">تحديث مستمر</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">الدعم</h3>
+          <ul class="text-sm space-y-2">
+            <li><a href="#" class="hover:text-white transition">تواصل معنا</a></li>
+            <li><a href="#" class="hover:text-white transition">الأسئلة المتكررة</a></li>
+            <li><a href="#" class="hover:text-white transition">الشروط والأحكام</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">المزيد</h3>
+          <ul class="text-sm space-y-2">
+            <li><a href="#" class="hover:text-white transition">سياسة الخصوصية</a></li>
+            <li><a href="#" class="hover:text-white transition">استخدام البيانات</a></li>
+            <li><a href="login.html" class="hover:text-white transition">لوحة التحكم</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center text-sm">
+        <p>&copy; 2026 جميع الحقوق محفوظة - All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

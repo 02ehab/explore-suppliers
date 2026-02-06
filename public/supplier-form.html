@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إضافة/تعديل موردين | Supplier Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="../js/supabase.js"></script>
+  <script defer src="../js/auth.js"></script>
+  <script defer src="../js/suppliers.js"></script>
+  <script defer src="../js/ui.js"></script>
+  <script defer src="./supplier-form.js"></script>
+</head>
+<body class="bg-gray-50">
+  <!-- Auth Loader Overlay -->
+  <div id="authLoader" class="auth-loader">
+    <div class="auth-loader-content">
+      <div class="spinner"></div>
+      <p>جاري التحقق من الهوية...</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-gray-200 mb-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 id="pageTitle" class="text-3xl font-bold text-gray-900">إضافة موردين جديدين</h1>
+          <p class="text-gray-600 mt-1">ملء النموذج بمعلومات الموردين الكاملة</p>
+        </div>
+        <a href="dashboard.html" class="text-gray-600 hover:text-gray-900">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+    <div class="bg-white rounded-lg shadow">
+      <form id="supplierForm" class="p-8 space-y-6">
+        <!-- Full Name -->
+        <div>
+          <label for="fullName" class="block text-sm font-semibold text-gray-700 mb-2">
+            الاسم الكامل <span class="text-red-600">*</span>
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="أدخل اسم الموردين الكامل"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+          >
+          <p class="text-xs text-gray-500 mt-1">الحقل مطلوب</p>
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label for="address" class="block text-sm font-semibold text-gray-700 mb-2">
+            العنوان <span class="text-red-600">*</span>
+          </label>
+          <textarea
+            id="address"
+            name="address"
+            placeholder="العنوان الكامل (الشارع، المدينة، الرمز البريدي)"
+            rows="4"
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition resize-none"
+          ></textarea>
+          <p class="text-xs text-gray-500 mt-1">الحقل مطلوب</p>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="border-t pt-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">معلومات الاتصال</h3>
+
+          <!-- Mobile 1 -->
+          <div class="mb-6">
+            <label for="mobile1" class="block text-sm font-semibold text-gray-700 mb-2">
+              رقم الهاتف الأساسي <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="tel"
+              id="mobile1"
+              name="mobile1"
+              placeholder="01024455315"
+              maxlength="11"
+              inputmode="numeric"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition ltr"
+            >
+            <p class="text-xs text-gray-500 mt-1">أدخل رقم هاتف مصري (11 رقم يبدأ بـ 01)</p>
+            <p id="mobile1Error" class="text-xs text-red-600 mt-1 hidden"></p>
+          </div>
+
+          <!-- Mobile 2 -->
+          <div class="mb-6">
+            <label for="mobile2" class="block text-sm font-semibold text-gray-700 mb-2">
+              رقم الهاتف الثاني (اختياري)
+            </label>
+            <input
+              type="tel"
+              id="mobile2"
+              name="mobile2"
+              placeholder="01024455315"
+              maxlength="11"
+              inputmode="numeric"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition ltr"
+            >
+            <p class="text-xs text-gray-500 mt-1">رقم هاتف بديل (اختياري)</p>
+            <p id="mobile2Error" class="text-xs text-red-600 mt-1 hidden"></p>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+              البريد الإلكتروني (اختياري)
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="supplier@example.com"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+            >
+            <p class="text-xs text-gray-500 mt-1">بريد إلكتروني صحيح (اختياري)</p>
+            <p id="emailError" class="text-xs text-red-600 mt-1 hidden"></p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="border-t pt-6 flex gap-4 justify-between">
+          <a href="dashboard.html" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
+            إلغاء
+          </a>
+          <div class="flex gap-4">
+            <button
+              type="reset"
+              class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium"
+            >
+              إعادة تعيين
+            </button>
+            <button
+              type="submit"
+              id="submitBtn"
+              class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium flex items-center gap-2"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              حفظ الموردين
+            </button>
+          </div>
+        </div>
+
+        <!-- Hidden ID field for editing -->
+        <input type="hidden" id="supplierId" name="supplierId">
+      </form>
+    </div>
+
+    <!-- Helpful Information -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mt-8">
+      <h3 class="text-lg font-semibold text-blue-900 mb-3">ملاحظات مهمة</h3>
+      <ul class="space-y-2 text-sm text-blue-800">
+        <li>✓ جميع الحقول المكتوبة بـ * مطلوبة</li>
+        <li>✓ تأكد من صحة رقم الهاتف المصري (يبدأ بـ 01x)</li>
+        <li>✓ يمكنك تعديل المعلومات لاحقاً من لوحة التحكم</li>
+        <li>✓ البريد الإلكتروني والهاتف الثاني قد يكونان اختياريين</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
