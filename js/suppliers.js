@@ -61,13 +61,13 @@ const suppliersModule = {
     const { data, error } = await supabaseClient
       .from(this.TABLE_NAME)
       .select('*')
-      .or(`full_name.ilike.%${cleanQuery}%,mobile_1.ilike.%${cleanQuery}%,mobile_2.ilike.%${cleanQuery}%`)
+      .or(`company_name.ilike.%${cleanQuery}%,responsible_person_name.ilike.%${cleanQuery}%,mobile_1.ilike.%${cleanQuery}%,mobile_2.ilike.%${cleanQuery}%`)
       .order('created_at', { ascending: false });
-    
+
     if (error) {
       throw new Error(error.message);
     }
-    
+
     return data || [];
   },
 
@@ -97,18 +97,19 @@ const suppliersModule = {
     const { data, error } = await supabaseClient
       .from(this.TABLE_NAME)
       .insert([{
-        full_name: supplier.full_name.trim(),
+        company_name: supplier.company_name.trim(),
+        responsible_person_name: supplier.responsible_person_name.trim(),
         address: supplier.address.trim(),
         mobile_1: supplier.mobile_1.trim(),
         mobile_2: supplier.mobile_2?.trim() || null,
         email: supplier.email?.trim() || null
       }])
       .select();
-    
+
     if (error) {
       throw new Error(error.message);
     }
-    
+
     return data?.[0] || null;
   },
 
@@ -121,7 +122,8 @@ const suppliersModule = {
     const { data, error } = await supabaseClient
       .from(this.TABLE_NAME)
       .update({
-        full_name: supplier.full_name.trim(),
+        company_name: supplier.company_name.trim(),
+        responsible_person_name: supplier.responsible_person_name.trim(),
         address: supplier.address.trim(),
         mobile_1: supplier.mobile_1.trim(),
         mobile_2: supplier.mobile_2?.trim() || null,
@@ -129,11 +131,11 @@ const suppliersModule = {
       })
       .eq('id', id)
       .select();
-    
+
     if (error) {
       throw new Error(error.message);
     }
-    
+
     return data?.[0] || null;
   },
 
@@ -157,9 +159,14 @@ const suppliersModule = {
    * Validate supplier data
    */
   validateSupplier(supplier) {
-    // Full name validation
-    if (!supplier.full_name || supplier.full_name.trim().length === 0) {
-      throw new Error('Full name is required');
+    // Company name validation
+    if (!supplier.company_name || supplier.company_name.trim().length === 0) {
+      throw new Error('Company name is required');
+    }
+
+    // Responsible person name validation
+    if (!supplier.responsible_person_name || supplier.responsible_person_name.trim().length === 0) {
+      throw new Error('Responsible person name is required');
     }
 
     // Address validation
