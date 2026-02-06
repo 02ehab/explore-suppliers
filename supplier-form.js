@@ -61,14 +61,15 @@ async function loadSupplierForEdit(id) {
     if (supplier) {
       editingSupplierId = supplier.id;
       document.getElementById('supplierId').value = supplier.id;
-      document.getElementById('fullName').value = supplier.full_name;
+      document.getElementById('companyName').value = supplier.company_name;
+      document.getElementById('responsiblePersonName').value = supplier.responsible_person_name;
       document.getElementById('address').value = supplier.address;
       document.getElementById('mobile1').value = supplier.mobile_1;
       document.getElementById('mobile2').value = supplier.mobile_2 || '';
       document.getElementById('email').value = supplier.email || '';
 
       // Update page title
-      document.getElementById('pageTitle').textContent = 'تعديل موردين: ' + supplier.full_name;
+      document.getElementById('pageTitle').textContent = 'تعديل موردين: ' + supplier.company_name;
       document.querySelector('p').textContent = 'تحديث معلومات الموردين';
     }
   } catch (error) {
@@ -81,7 +82,8 @@ async function loadSupplierForEdit(id) {
  * Validate form inputs
  */
 function validateForm() {
-  const fullName = document.getElementById('fullName').value.trim();
+  const companyName = document.getElementById('companyName').value.trim();
+  const responsiblePersonName = document.getElementById('responsiblePersonName').value.trim();
   const address = document.getElementById('address').value.trim();
   const mobile1 = document.getElementById('mobile1').value.trim();
   const mobile2 = document.getElementById('mobile2').value.trim();
@@ -94,9 +96,15 @@ function validateForm() {
 
   let hasErrors = false;
 
-  // Validate full name
-  if (!fullName) {
-    UIModule.showToast('الاسم الكامل مطلوب', 'error');
+  // Validate company name
+  if (!companyName) {
+    UIModule.showToast('اسم الشركة مطلوب', 'error');
+    return false;
+  }
+
+  // Validate responsible person name
+  if (!responsiblePersonName) {
+    UIModule.showToast('اسم الشخص المسؤول مطلوب', 'error');
     return false;
   }
 
@@ -159,7 +167,8 @@ async function handleFormSubmit(e) {
 
   try {
     const supplierData = {
-      full_name: document.getElementById('fullName').value.trim(),
+      company_name: document.getElementById('companyName').value.trim(),
+      responsible_person_name: document.getElementById('responsiblePersonName').value.trim(),
       address: document.getElementById('address').value.trim(),
       mobile_1: document.getElementById('mobile1').value.trim(),
       mobile_2: document.getElementById('mobile2').value.trim() || null,
@@ -268,7 +277,7 @@ async function initPage() {
   }
 
   // Focus on first field
-  document.getElementById('fullName').focus();
+  document.getElementById('companyName').focus();
 }
 
 // Initialize when DOM is ready
