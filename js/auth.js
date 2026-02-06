@@ -121,3 +121,4 @@ const authModule = {
 
 // Export auth module
 window.authModule = authModule;
+
