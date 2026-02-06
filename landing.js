@@ -68,7 +68,8 @@ function createSupplierCard(supplier) {
       <div class="p-6">
         <!-- Header -->
         <div class="mb-4">
-          <h3 class="text-xl font-bold text-gray-900 mb-1">${escapeHtml(supplier.full_name)}</h3>
+          <h3 class="text-xl font-bold text-gray-900 mb-1">${escapeHtml(supplier.company_name)}</h3>
+          <p class="text-sm text-gray-600 mb-1">${escapeHtml(supplier.responsible_person_name)}</p>
           <p class="text-sm text-gray-500">${supplier.created_at ? new Date(supplier.created_at).toLocaleDateString('ar-EG') : ''}</p>
         </div>
 
