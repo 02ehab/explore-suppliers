@@ -103,11 +103,30 @@ html[dir="rtl"] .toast {
 /* Card hover effect */
 .supplier-card {
   transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
 }
 
 .supplier-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
+}
+
+/* Fade-in animation for cards */
+.fade-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Modal styling */
@@ -261,4 +280,3 @@ html[dir="rtl"] .search-input input {
     right: auto;
   }
 }
-
