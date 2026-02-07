@@ -60,6 +60,21 @@ function renderSuppliers(suppliers) {
 }
 
 /**
+ * Get category display name
+ */
+function getCategoryDisplayName(category) {
+  const categoryMap = {
+    'Electronics': 'إلكترونيات',
+    'Clothing': 'ملابس',
+    'Food': 'طعام',
+    'Construction': 'إنشاءات',
+    'Medical': 'طبية',
+    'Other': 'أخرى'
+  };
+  return categoryMap[category] || category;
+}
+
+/**
  * Create a supplier card HTML element
  */
 function createSupplierCard(supplier) {
@@ -70,6 +85,7 @@ function createSupplierCard(supplier) {
         <div class="mb-4">
           <h3 class="text-xl font-bold text-gray-900 mb-1">${escapeHtml(supplier.company_name)}</h3>
           <p class="text-sm text-gray-600 mb-1">${escapeHtml(supplier.responsible_person_name)}</p>
+          ${supplier.category ? `<span class="inline-block px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full mb-2">${getCategoryDisplayName(supplier.category)}</span>` : ''}
           <p class="text-sm text-gray-500">${supplier.created_at ? new Date(supplier.created_at).toLocaleDateString('ar-EG') : ''}</p>
         </div>
 
