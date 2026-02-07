@@ -123,7 +123,7 @@ function createSupplierCard(supplier) {
   return `
     <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg fade-in">
       <div class="relative">
-        <img src="https://i.ibb.co/kvWWgqC/images.png" alt="Company Logo" class="w-full h-32 object-cover">
+        <img src="https://i.ibb.co/wF501f6F/images.png" alt="Company Logo" class="w-full h-32 object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
       </div>
       <div class="p-6">
@@ -286,5 +286,6 @@ if (document.readyState === 'loading') {
 } else {
   initPage();
 }
+
 
 
