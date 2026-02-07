@@ -67,6 +67,7 @@ async function loadSupplierForEdit(id) {
       document.getElementById('mobile1').value = supplier.mobile_1;
       document.getElementById('mobile2').value = supplier.mobile_2 || '';
       document.getElementById('email').value = supplier.email || '';
+      document.getElementById('category').value = supplier.category || '';
 
       // Update page title
       document.getElementById('pageTitle').textContent = 'تعديل موردين: ' + supplier.company_name;
@@ -172,7 +173,8 @@ async function handleFormSubmit(e) {
       address: document.getElementById('address').value.trim(),
       mobile_1: document.getElementById('mobile1').value.trim(),
       mobile_2: document.getElementById('mobile2').value.trim() || null,
-      email: document.getElementById('email').value.trim() || null
+      email: document.getElementById('email').value.trim() || null,
+      category: document.getElementById('category').value.trim() || null
     };
 
     let result;
