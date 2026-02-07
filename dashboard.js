@@ -84,6 +84,21 @@ function updateStats(suppliers) {
 }
 
 /**
+ * Get category display name
+ */
+function getCategoryDisplayName(category) {
+  const categoryMap = {
+    'Electronics': 'إلكترونيات',
+    'Clothing': 'ملابس',
+    'Food': 'طعام',
+    'Construction': 'إنشاءات',
+    'Medical': 'طبية',
+    'Other': 'أخرى'
+  };
+  return categoryMap[category] || category;
+}
+
+/**
  * Render suppliers in table
  */
 function renderSuppliers(suppliers) {
@@ -101,6 +116,7 @@ function renderSuppliers(suppliers) {
   table.innerHTML = suppliers.map(supplier => `
     <tr>
       <td class="px-6 py-4 text-sm font-medium text-gray-900">${escapeHtml(supplier.full_name)}</td>
+      <td class="px-6 py-4 text-sm text-gray-600">${supplier.category ? getCategoryDisplayName(supplier.category) : '-'}</td>
       <td class="px-6 py-4 text-sm text-gray-600 ltr">${formatPhoneDisplay(supplier.mobile_1)}</td>
       <td class="px-6 py-4 text-sm text-gray-600 ltr">${supplier.mobile_2 ? formatPhoneDisplay(supplier.mobile_2) : '-'}</td>
       <td class="px-6 py-4 text-sm text-gray-600">${supplier.email ? escapeHtml(supplier.email) : '-'}</td>
