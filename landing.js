@@ -79,7 +79,11 @@ function getCategoryDisplayName(category) {
  */
 function createSupplierCard(supplier) {
   return `
-    <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg">
+    <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg fade-in">
+      <div class="relative">
+        <img src="https://via.placeholder.com/400x200/3b82f6/ffffff?text=Company+Logo" alt="Company Logo" class="w-full h-32 object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+      </div>
       <div class="p-6">
         <!-- Header -->
         <div class="mb-4">
