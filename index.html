@@ -43,24 +43,30 @@
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <!-- Search Section -->
-    <div class="mb-8">
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">البحث عن موردين</h2>
-        <div class="search-input relative">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-          </svg>
-          <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="ابحث بالاسم أو رقم الهاتف... / Search by name or phone"
-            class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          >
-        </div>
-        <p class="text-sm text-gray-500 mt-2">اضغط يمين الزر على المجالات أدناه لنسخ البريد الإلكتروني</p>
-      </div>
+   <!-- Search Section -->
+<div class="mb-8">
+  <div class="search-card">
+    <h2 class="text-xl font-semibold mb-4">البحث عن موردين</h2>
+
+    <div class="search-input">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="ابحث بالاسم أو رقم الهاتف..."
+      />
     </div>
+
+    <p class="text-sm mt-2 opacity-80">
+      اضغط يمين الزر على المجالات أدناه لنسخ البريد الإلكتروني
+    </p>
+  </div>
+</div>
+
 
     <!-- Suppliers Grid -->
     <div id="suppliersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -120,5 +126,6 @@
   </footer>
 </body>
 </html>
+
 
 
