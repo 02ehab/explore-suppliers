@@ -102,7 +102,8 @@ const suppliersModule = {
         address: supplier.address.trim(),
         mobile_1: supplier.mobile_1.trim(),
         mobile_2: supplier.mobile_2?.trim() || null,
-        email: supplier.email?.trim() || null
+        email: supplier.email?.trim() || null,
+        category: supplier.category?.trim() || null
       }])
       .select();
 
@@ -127,7 +128,8 @@ const suppliersModule = {
         address: supplier.address.trim(),
         mobile_1: supplier.mobile_1.trim(),
         mobile_2: supplier.mobile_2?.trim() || null,
-        email: supplier.email?.trim() || null
+        email: supplier.email?.trim() || null,
+        category: supplier.category?.trim() || null
       })
       .eq('id', id)
       .select();
