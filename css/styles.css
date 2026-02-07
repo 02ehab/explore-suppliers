@@ -300,46 +300,73 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Search input styling */
+/* Search Card = Header Style */
+.search-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.65)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #0f172a;
+}
+
+/* Search Input Wrapper */
 .search-input {
   position: relative;
 }
 
+/* Icon */
 .search-input svg {
   position: absolute;
-  left: 12px;
   top: 50%;
+  left: 14px;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #64748b;
   pointer-events: none;
+  transition: color 0.2s ease;
 }
 
+/* Input */
+.search-input input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px 0 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+/* Focus State */
+.search-input input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+/* Icon reacts on focus */
+.search-input input:focus + svg,
+.search-input:focus-within svg {
+  color: #6366f1;
+}
+
+/* RTL Support */
 html[dir="rtl"] .search-input svg {
-  right: 12px;
+  right: 14px;
   left: auto;
   transform: translateY(-50%) scaleX(-1);
 }
 
-.search-input input {
-  padding-left: 40px;
-}
-
 html[dir="rtl"] .search-input input {
-  padding-right: 40px;
-  padding-left: 12px;
-}
-
-/* Empty state */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.empty-state svg {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 20px;
-  opacity: 0.5;
+  padding-right: 44px;
+  padding-left: 16px;
 }
 
 /* Auth Loader Overlay */
@@ -392,4 +419,5 @@ html[dir="rtl"] .search-input input {
     right: auto;
   }
 }
+
 
