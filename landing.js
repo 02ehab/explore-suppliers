@@ -1,3 +1,16 @@
+/*
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("menuToggle");
+  const nav = document.getElementById("navMenu");
+
+  // تأمين في حالة الموبايل فقط
+  if (!toggle || !nav) return;
+
+  toggle.addEventListener("click", () => {
+    nav.classList.toggle("active");
+  });
+});
+ */
 /**
  * Landing Page Script
  * Handles supplier display and search
@@ -286,6 +299,7 @@ if (document.readyState === 'loading') {
 } else {
   initPage();
 }
+
 
 
 
