@@ -64,15 +64,57 @@ function renderSuppliers(suppliers) {
  */
 function getCategoryDisplayName(category) {
   const categoryMap = {
-    'Electronics': 'إلكترونيات',
-    'Clothing': 'ملابس',
-    'Food': 'طعام',
-    'Construction': 'إنشاءات',
-    'Medical': 'طبية',
-    'Other': 'أخرى'
+    // Food & Beverage
+    food_supplies: 'مواد غذائية',
+    beverages: 'مشروبات',
+    meat_poultry: 'لحوم ودواجن',
+    seafood: 'أسماك ومأكولات بحرية',
+    bakery: 'مخبوزات',
+    dairy: 'ألبان ومنتجاتها',
+    fruits_vegetables: 'خضروات وفاكهة',
+
+    // Housekeeping
+    cleaning_supplies: 'مواد تنظيف',
+    laundry_services: 'مغاسل وكي الملابس',
+    amenities: 'مستلزمات غرف النزلاء',
+
+    // Maintenance & Engineering
+    electrical: 'كهرباء',
+    plumbing: 'سباكة',
+    hvac: 'تكييف وتبريد',
+    construction: 'مقاولات وإنشاءات',
+    spare_parts: 'قطع غيار وصيانة',
+
+    // Furniture & Equipment
+    furniture: 'أثاث فندقي',
+    kitchen_equipment: 'معدات مطابخ',
+    laundry_equipment: 'معدات مغاسل',
+    electronics: 'أجهزة إلكترونية',
+    it_systems: 'أنظمة وشبكات IT',
+
+    // Security & Safety
+    security_services: 'خدمات أمن',
+    fire_safety: 'أنظمة إطفاء وحريق',
+    cctv: 'كاميرات مراقبة',
+
+    // Services
+    transportation: 'نقل ولوجستيات',
+    waste_management: 'إدارة مخلفات',
+    pest_control: 'مكافحة آفات',
+    medical_supplies: 'مستلزمات طبية',
+
+    // Marketing & Operations
+    printing: 'طباعة ودعاية',
+    uniforms: 'زي موحد للموظفين',
+    event_services: 'تنظيم مؤتمرات وحفلات',
+
+    // Other
+    other: 'أخرى'
   };
-  return categoryMap[category] || category;
+
+  return categoryMap[category] || 'غير محدد';
 }
+
 
 /**
  * Create a supplier card HTML element
@@ -244,3 +286,4 @@ if (document.readyState === 'loading') {
 } else {
   initPage();
 }
+
