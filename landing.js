@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let allSuppliers = [];
 let filteredSuppliers = [];
+let currentPage = 1;
+const pageSize = 12; // For landing page, show more per page
 
 // Wait for Supabase to be available
 function waitForSupabase() {
@@ -39,8 +41,9 @@ function waitForSupabase() {
 async function loadSuppliers() {
   try {
     allSuppliers = await suppliersModule.getAllSuppliers();
-    filteredSuppliers = allSuppliers;
+    applyFilters();
     renderSuppliers(filteredSuppliers);
+    populateCityFilter(allSuppliers);
   } catch (error) {
     console.error('Error loading suppliers:', error);
     UIModule.showToast('خطأ في تحميل البيانات: ' + error.message, 'error');
@@ -136,7 +139,7 @@ function createSupplierCard(supplier) {
   return `
     <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg fade-in">
       <div class="relative">
-        <img src="https://i.ibb.co/wF501f6F/images.png" alt="company logo" border="0"></a>
+        <img src="https://i.ibb.co/wF501f6F/images.png" alt="images" border="0"></a>
         <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
       </div>
       <div class="p-6">
@@ -213,20 +216,61 @@ function createSupplierCard(supplier) {
 }
 
 /**
+ * Apply filters (search and city)
+ */
+function applyFilters() {
+  const searchQuery = document.getElementById('searchInput').value.trim();
+  const cityFilter = document.getElementById('cityFilter').value.trim();
+
+  filteredSuppliers = allSuppliers.filter(supplier => {
+    // Search filter
+    const matchesSearch = !searchQuery || (
+      supplier.company_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.responsible_person_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.mobile_1?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.mobile_2?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // City filter
+    const matchesCity = !cityFilter || supplier.city === cityFilter;
+
+    return matchesSearch && matchesCity;
+  });
+}
+
+/**
+ * Populate city filter dropdown
+ */
+function populateCityFilter(suppliers) {
+  const cityFilter = document.getElementById('cityFilter');
+  const cities = [...new Set(suppliers.map(s => s.city).filter(c => c))].sort();
+
+  // Clear existing options except "جميع المدن"
+  cityFilter.innerHTML = '<option value="">جميع المدن</option>';
+
+  // Add city options
+  cities.forEach(city => {
+    const option = document.createElement('option');
+    option.value = city;
+    option.textContent = city;
+    cityFilter.appendChild(option);
+  });
+}
+
+/**
  * Search suppliers
  */
 function searchSuppliers(query) {
-  if (!query || query.trim().length === 0) {
-    filteredSuppliers = allSuppliers;
-  } else {
-    const cleanQuery = query.toLowerCase().trim();
-    filteredSuppliers = allSuppliers.filter(supplier => {
-      const matchesName = supplier.full_name.toLowerCase().includes(cleanQuery);
-      const matchesMobile1 = supplier.mobile_1.toLowerCase().includes(cleanQuery);
-      const matchesMobile2 = supplier.mobile_2?.toLowerCase().includes(cleanQuery);
-      return matchesName || matchesMobile1 || matchesMobile2;
-    });
-  }
+  applyFilters();
+  renderSuppliers(filteredSuppliers);
+}
+
+/**
+ * Filter by city
+ */
+function filterByCity(city) {
+  applyFilters();
   renderSuppliers(filteredSuppliers);
 }
 
@@ -299,8 +343,3 @@ if (document.readyState === 'loading') {
 } else {
   initPage();
 }
-
-
-
-
-
