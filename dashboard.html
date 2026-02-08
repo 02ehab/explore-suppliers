@@ -100,13 +100,23 @@
     <!-- Action Bar -->
     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
       <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div class="flex-1">
-          <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="ابحث عن موردين..." 
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-          >
+        <div class="flex-1 flex gap-4">
+          <div class="flex-1">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="ابحث عن موردين..."
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            >
+          </div>
+          <div class="w-48">
+            <select
+              id="addressFilter"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            >
+              <option value="">جميع العناوين</option>
+            </select>
+          </div>
         </div>
         <a href="supplier-form.html" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
           + إضافة موردين
