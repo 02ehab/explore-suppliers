@@ -51,17 +51,20 @@ async function checkAuth() {
  */
 async function loadSuppliers(page = 1) {
   try {
-    const allSuppliers = await suppliersModule.getAllSuppliers();
+    allSuppliers = await suppliersModule.getAllSuppliers();
+    applyFilters();
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
 
-    filteredSuppliers = allSuppliers;
     updateStats(allSuppliers);
-    renderSuppliers(allSuppliers.slice(start, end));
+    renderSuppliers(filteredSuppliers.slice(start, end));
 
     // Setup pagination
-    const totalPages = Math.ceil(allSuppliers.length / pageSize);
+    const totalPages = Math.ceil(filteredSuppliers.length / pageSize);
     setupPagination(totalPages, page);
+
+    // Populate address filter
+    populateAddressFilter(allSuppliers);
   } catch (error) {
     console.error('Error loading suppliers:', error);
     UIModule.showToast('خطأ في تحميل البيانات', 'error');
@@ -115,7 +118,7 @@ function renderSuppliers(suppliers) {
 
   table.innerHTML = suppliers.map(supplier => `
     <tr>
-      <td class="px-6 py-4 text-sm font-medium text-gray-900">${escapeHtml(supplier.full_name)}</td>
+      <td class="px-6 py-4 text-sm font-medium text-gray-900">${escapeHtml(supplier.company_name)}</td>
       <td class="px-6 py-4 text-sm text-gray-600">${supplier.category ? getCategoryDisplayName(supplier.category) : '-'}</td>
       <td class="px-6 py-4 text-sm text-gray-600 ltr">${formatPhoneDisplay(supplier.mobile_1)}</td>
       <td class="px-6 py-4 text-sm text-gray-600 ltr">${supplier.mobile_2 ? formatPhoneDisplay(supplier.mobile_2) : '-'}</td>
@@ -125,7 +128,7 @@ function renderSuppliers(suppliers) {
           <a href="supplier-form.html?id=${supplier.id}" class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition text-xs font-medium">
             تعديل
           </a>
-          <button onclick="deleteSupplier('${supplier.id}', '${escapeHtml(supplier.full_name)}')" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition text-xs font-medium">
+          <button onclick="deleteSupplier('${supplier.id}', '${escapeHtml(supplier.company_name)}')" class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition text-xs font-medium">
             حذف
           </button>
         </div>
@@ -161,22 +164,68 @@ function setupPagination(totalPages, currentPageNum) {
 }
 
 /**
+ * Apply filters (search and address)
+ */
+function applyFilters() {
+  const searchQuery = document.getElementById('searchInput').value.trim();
+  const addressFilter = document.getElementById('addressFilter').value.trim();
+
+  filteredSuppliers = allSuppliers.filter(supplier => {
+    // Search filter
+    const matchesSearch = !searchQuery || (
+      supplier.company_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.responsible_person_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.mobile_1?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.mobile_2?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      supplier.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Address filter
+    const matchesAddress = !addressFilter || supplier.address.toLowerCase().includes(addressFilter.toLowerCase());
+
+    return matchesSearch && matchesAddress;
+  });
+}
+
+/**
+ * Populate address filter dropdown
+ */
+function populateAddressFilter(suppliers) {
+  const addressFilter = document.getElementById('addressFilter');
+  const addresses = [...new Set(suppliers.map(s => s.address).filter(a => a))].sort();
+
+  // Clear existing options except "جميع العناوين"
+  addressFilter.innerHTML = '<option value="">جميع العناوين</option>';
+
+  // Add address options
+  addresses.forEach(address => {
+    const option = document.createElement('option');
+    option.value = address;
+    option.textContent = address;
+    addressFilter.appendChild(option);
+  });
+}
+
+/**
  * Search suppliers
  */
 function searchSuppliers(query) {
-  if (!query || query.trim().length === 0) {
-    filteredSuppliers = allSuppliers;
-  } else {
-    const cleanQuery = query.toLowerCase().trim();
-    filteredSuppliers = allSuppliers.filter(supplier => {
-      return (
-        supplier.full_name.toLowerCase().includes(cleanQuery) ||
-        supplier.mobile_1?.toLowerCase().includes(cleanQuery) ||
-        supplier.mobile_2?.toLowerCase().includes(cleanQuery) ||
-        supplier.email?.toLowerCase().includes(cleanQuery)
-      );
-    });
-  }
+  applyFilters();
+
+  currentPage = 1;
+  const start = 0;
+  const end = pageSize;
+  renderSuppliers(filteredSuppliers.slice(start, end));
+
+  const totalPages = Math.ceil(filteredSuppliers.length / pageSize);
+  setupPagination(totalPages, 1);
+}
+
+/**
+ * Filter by address
+ */
+function filterByAddress(address) {
+  applyFilters();
 
   currentPage = 1;
   const start = 0;
@@ -273,6 +322,14 @@ async function initPage() {
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       searchSuppliers(e.target.value);
+    });
+  }
+
+  // Setup address filter
+  const addressFilter = document.getElementById('addressFilter');
+  if (addressFilter) {
+    addressFilter.addEventListener('change', (e) => {
+      filterByAddress(e.target.value);
     });
   }
 
